@@ -9,7 +9,7 @@ board = [
 ]
 
 
-def cambiar_turno():
+def change_turn():
     turn.rotate()
     return turn[0]
 
@@ -21,12 +21,12 @@ def print_board(board):
         print(' '.join(map(str, row)))
 
 
-def capturar():
+def capture():
     row = ""
     column = ""
     while row == "" and column == "":
-        option = input("Jugador {}, ingrese la posición (fila,coluumna) de 1 a 3. 'salir' para salir: ".format(turn[0]))
-        if option == "salir":
+        option = input("Player {}, insert the position (row,column) from 1 to 3. 'exit' to exit: ".format(turn[0]))
+        if option == "exit":
             exit()
 
         try:
@@ -35,13 +35,13 @@ def capturar():
                 row = int(row)
                 column = int(column)
                 if row >= 4 or column >= 4:
-                    print("Valores para fila y/o columna no validos")
+                    print("Values for row and/or column not valids")
                 else:
                     return row, column
             except Exception as e:
-                print("Valores no validos")
+                print("Values no valids")
         except Exception as e:
-            print("Opción no valida: ", e)
+            print("Option not valid: ", e)
         row = ""
         column = ""
 
@@ -49,8 +49,8 @@ def write(row, column):
     if verify():
         board[row-1][column-1] = turn[0]
     else:
-        print("No se pudó, intente de nuevo")
-        cambiar_turno()
+        print("The space is already occupied. Please try again")
+        change_turn()
 
 
 def verify():
@@ -79,7 +79,7 @@ if __name__ == "__main__":
     flag = True
     while flag:
         print_board(board)
-        row, column = capturar()
+        row, column = capture()
         write(row, column)
         flag = verify_win(board, flag)
-        cambiar_turno()
+        change_turn()
